@@ -1,0 +1,109 @@
+package pack;
+
+/**
+Brittain Cooke 10/10/17
+CS 3310(Gupta) assignment 2
+CharStack.Java:
+    This class designates the instructions for creating and using a CharStack Object.
+    This class implements a Stack using the CharList as the backbone.
+ **/
+public class CharStack {
+
+
+    /**
+     *Attributes / Fields
+     */
+    private CharList list   = new CharList();
+    private CharNode stackTop;
+
+    /**
+     * CharStack():
+     *  Constructor function for creating CharStack Object
+     */
+    public CharStack(){
+        this.setList(this.list);
+        this.setStackTop();
+
+    }
+
+    /**
+     * isEmpty():
+     *  Checks to see that there's is at least one CharNode in the CharStack
+     * @return
+     */
+    boolean isEmpty(){
+
+        return ((this.getStackTop()==null));
+
+    }
+
+
+
+    /**
+     * push():
+     *  Uses insert function from CharList to act as a push function for the Stack.
+     *  This adds a new CharNode to the Top of the stack
+     * @param pData
+     */
+    void push(char pData) {
+
+        this.getList().insert(pData);
+        this.setStackTop();
+
+    }
+
+    /**
+     * pop():
+     *  Uses delete function from CharList to act as a pop function for the Stack.
+     *  This removes and returns the top CharNode of the Stack.
+     * @return
+     */
+    CharNode pop(){
+        CharNode tempNode;
+        if(this.getList()!=null) {
+            tempNode    = this.getList().delete();
+            this.setStackTop();
+        }else{
+            tempNode =  null;
+        }
+        return tempNode;
+
+    }
+
+    /**
+     * getList():
+     *  Getter method for the list attribute of the CharStack class
+     * @return
+     */
+    CharList getList() {
+        return this.list;
+    }
+
+    /**
+     * setList():
+     *  Setter method for the list attribute of the CharStack class
+     * @param list
+     */
+    void setList(CharList list) {
+        this.list = list;
+    }
+
+
+    /**
+     * setStackTop():
+     *  Setter method for the stackTop attribute of the CharStack class
+     */
+    void setStackTop() {
+        this.stackTop   = this.getList().getHead();
+    }
+
+
+    /**
+     * getStackTop();
+     *  Getter method for the stackTop attribute of the CharStack class
+     * @return
+     */
+    CharNode getStackTop(){
+        return this.stackTop;
+    }
+}
