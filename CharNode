@@ -2,107 +2,69 @@
 
 package pack;
 
-
 /**
-Brittain Cooke 10/10/17
-CS 3310(Gupta) assignment 2
-CharList.Java:
-    This class designates the instructions for creating and using a CharList Object.
-    This class acts a an implementation of linklist of self made CharNodes .
+ * Brittain Cooke 10/10/17
+ *CS 3310(Gupta) assignment 2
+ *CharNode.Java:
+ *  This class designates the instructions for creating and using a CharNode Object.
+ *  The CharNode objects are used as the Building blocks for the CharList object/Linked List.
  */
-public class CharList {
+public class CharNode {
+
 
     /**
      * Attributes / Fields
      */
-    private CharNode head;
-    private CharNode tail;
-
-    /**
-     * Charlist():
-     *This function is the constructor for the Charlist Class
-     */
-    public CharList(){
-        setHead(null);
-        setTail(null);
-    }
-
+    private char myData;
+    private CharNode next;
 
 
     /**
-     * insert():
-     *This funtion creates a node fills the myData field with the char parameter
-     *and sets the new node as the head of the list.(Functions similar to a stack.push())
+     * CharNode():
+     *Constructor function that creates a node with a single piece of data in it
      * @param pData
      */
-    void insert(char pData){
+    public CharNode(char pData){
 
-        CharNode node   = new CharNode(pData);
-        node.setNext(this.getHead());
-        setHead(node);
+        this.setMyData(pData);
 
     }
 
-
-
-
     /**
-     * delete():
-     *This function saves the head CharNode in the list to temporary CHarNode,
-     *moves the head pointer to the the head.next value and then returns the old
-     *head node saved in hte temp pointer. This effectively deletes the node from teh list.
-     *(Functions much like stack.pop())
+     * getMyData():
+     *returns the char data that is stored in the CharNode's myData Attribute
      * @return
      */
-    CharNode delete(){
-
-        CharNode tempNode   = getHead();
-
-        if(this.getHead()==null){
-            return null;
-        }
-
-        this.setHead(this.getHead().getNext());
-        return tempNode;
+    public char getMyData() {
+        return this.myData;
     }
 
 
     /**
-     * setHead():
-     *sets the head value
-     * @param pHead
+     * setMyData():
+     *stores a char data in the CharNodes's myData Attribute
+     * @param myData
      */
-    void setHead(CharNode pHead){
-        this.head   = pHead;
+    public void setMyData(char myData) {
+        this.myData = myData;
     }
 
 
     /**
-     * getHead():
-     *returns a previously set head CharNode
+     * getNext():
+     returns the value of the next node pointer
      * @return
      */
-    CharNode getHead(){
-        return this.head;
+    public CharNode getNext() {
+        return this.next;
     }
 
-
     /**
-     * getTail():
-     *returns a previously assigned tail field
-     * @return
+     * setNext():
+     *Assign a pointer to a different CharNode
+     * @param next
      */
-    CharNode getTail() {
-        return tail;
-    }
-
-
-    /**
-     * setTail():
-     *set the tail attribute value
-     * @param tail
-     */
-    void setTail(CharNode tail) {
-        this.tail = tail;
+    public void setNext(CharNode next) {
+        this.next = next;
     }
 }
