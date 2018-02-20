@@ -1,0 +1,107 @@
+
+package pack;
+
+
+/**
+Brittain Cooke 10/10/17
+CS 3310(Gupta) assignment 2
+CharList.Java:
+    This class designates the instructions for creating and using a CharList Object.
+    This class acts a an implementation of linklist of self made CharNodes .
+ */
+public class CharList {
+
+    /**
+     * Attributes / Fields
+     */
+    private CharNode head;
+    private CharNode tail;
+
+    /**
+     * Charlist():
+     *This function is the constructor for the Charlist Class
+     */
+    public CharList(){
+        setHead(null);
+        setTail(null);
+    }
+
+
+
+    /**
+     * insert():
+     *This funtion creates a node fills the myData field with the char parameter
+     *and sets the new node as the head of the list.(Functions similar to a stack.push())
+     * @param pData
+     */
+    void insert(char pData){
+
+        CharNode node   = new CharNode(pData);
+        node.setNext(this.getHead());
+        setHead(node);
+
+    }
+
+
+
+
+    /**
+     * delete():
+     *This function saves the head CharNode in the list to temporary CHarNode,
+     *moves the head pointer to the the head.next value and then returns the old
+     *head node saved in hte temp pointer. This effectively deletes the node from teh list.
+     *(Functions much like stack.pop())
+     * @return
+     */
+    CharNode delete(){
+
+        CharNode tempNode   = getHead();
+
+        if(this.getHead()==null){
+            return null;
+        }
+
+        this.setHead(this.getHead().getNext());
+        return tempNode;
+    }
+
+
+    /**
+     * setHead():
+     *sets the head value
+     * @param pHead
+     */
+    void setHead(CharNode pHead){
+        this.head   = pHead;
+    }
+
+
+    /**
+     * getHead():
+     *returns a previously set head CharNode
+     * @return
+     */
+    CharNode getHead(){
+        return this.head;
+    }
+
+
+    /**
+     * getTail():
+     *returns a previously assigned tail field
+     * @return
+     */
+    CharNode getTail() {
+        return tail;
+    }
+
+
+    /**
+     * setTail():
+     *set the tail attribute value
+     * @param tail
+     */
+    void setTail(CharNode tail) {
+        this.tail = tail;
+    }
+}
