@@ -1,0 +1,107 @@
+package pack;
+
+/**
+Brittain Cooke 10/10/17
+CS 3310(Gupta) assignment 2
+CharQueue.Java:
+    This class designates the instructions for creating and using a CharQueue Object.
+    CharQueue objects are special implementations of the CharList object. The data structure
+    implements a FIFO property
+ **/
+public class CharQueue {
+
+
+    /**
+     * Attributes / Fields
+     */
+    private CharList list   = new CharList();
+
+    /**
+     * CharQueue():
+     *  Acts as the constructor function for CharQueue Objects
+     */
+    public  CharQueue(){
+        this.setList(list);
+    }
+
+    /*
+    getList():
+        Getter method for the list attribute
+     */
+
+    /**
+     * getList():
+     *   Getter method for the list attribute
+     * @return
+     */
+    public CharList getList() {
+        return list;
+    }
+
+    /*
+    setList():
+        Setter method for the list attribute
+     */
+
+    /**
+     * setList():
+     *  Setter method for the list attribute
+     * @param list
+     */
+    public void setList(CharList list) {
+        this.list = list;
+    }
+
+
+    /**
+     * isEmpty():
+     *   checks to see of the stack has at least one CharNode in the CharQueue
+     * @return
+     */
+    boolean isEmpty(){
+        return(list.getTail()==null);
+    }
+
+
+    /**
+     * enqueue():
+     *  This function inserts a new Node at the tail end of the CharQueue
+     * @param pData
+     */
+    void enqueue(char pData){
+        CharNode node  = new CharNode(pData);
+        //Head is set when the first node is added to the CharQueue. Else point current tail CharNode
+        // to the new CharNode
+        if(this.isEmpty()){
+            this.getList().setHead(node);
+        }else {
+            this.getList().getTail().setNext(node);
+        }
+
+        //Set tail to newly added CharNode. Set next pointer for new CharNode to null(Signifies the end of the Queue)
+        this.getList().setTail(node);
+        this.getList().getTail().setNext(null);
+    }
+
+
+    /**
+     * dequeue():
+     *  This function deletes the top value of the CharQueue by changing the Head pointer. The deleted
+     *  CharNode is returned to the caller.
+     * @return
+     */
+    CharNode dequeue() {
+        CharNode node = this.getList().getHead();
+
+        if(this.getList().getHead()!=null) {
+            if (this.getList().getHead().getNext() == null) {
+                this.getList().setTail(null);
+                return node;
+            }
+            this.getList().setHead(this.getList().getHead().getNext());
+            return node;
+        }
+        return null;
+    }
+
+}
