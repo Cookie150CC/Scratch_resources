@@ -1,0 +1,140 @@
+package pack;
+
+public class Node {
+
+    private String firstName;
+    private String lastName;
+    private int sizeOfSubtree;
+    private Node parent;
+    private Node Lchild;
+    private Node Rchild;
+
+    /**
+     *
+     * @param pFName
+     * @param pLName
+     */
+    public Node(String pFName, String pLName) {
+        this.parent = null;
+        this.Lchild = null;
+        this.Rchild = null;
+
+        this.firstName = pFName;
+        this.lastName = pLName;
+    }
+
+
+    /**
+     *
+     * @param pFName
+     * @param pLName
+     * @param pParent
+     * @param pRchild
+     * @param pLchild
+     */
+    public Node(String pFName, String pLName, Node pParent, Node pRchild, Node pLchild) {
+        this.parent = pParent;
+        this.Lchild = pLchild;
+        this.Rchild = pRchild;
+
+        this.firstName = pFName;
+        this.lastName = pLName;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public Node getRchild() {
+        return Rchild;
+    }
+
+    /**
+     *
+     * @param rchild
+     */
+    public void setRchild(Node rchild) {
+        Rchild = rchild;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Node getLchild() {
+        return Lchild;
+    }
+
+    /**
+     *
+     * @param lchild
+     */
+    public void setLchild(Node lchild) {
+        Lchild = lchild;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Node getParent() {
+        return parent;
+    }
+
+    /**
+     *
+     * @param parent
+     */
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     *
+     * @param lastName
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     *
+     * @param firstName
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getSizeOfSubtree() {
+        return sizeOfSubtree;
+    }
+
+    /**
+     *
+     * @param sizeOfSubtree
+     */
+    public void setSizeOfSubtree(int sizeOfSubtree) {
+        this.sizeOfSubtree = sizeOfSubtree;
+    }
+}
