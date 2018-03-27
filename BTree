@@ -1,0 +1,317 @@
+package pack;
+import java.util.*;
+
+public class BTree {
+
+    private Node root;
+    private int size;
+
+    /**
+     * Constructor function for the BTree class
+     * @param pRoot
+     */
+    public BTree(Node pRoot){
+        this.setRoot(pRoot);
+        this.setSize(1);
+
+    }
+
+    /**
+     * getRoot returns the root Node of the Btree
+     * @return
+     */
+    public Node getRoot() {
+        return root;
+    }
+
+    /**
+     * setRoot sets tehroot node of a BTree
+     * @param root
+     */
+    public void setRoot(Node root) {
+        this.root = root;
+    }
+
+    /**
+     * getSize returns the size of the calling BTree
+     * @return
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * setSize adjusts the size of the BTree
+     * @param size
+     */
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    /**
+     * minHeapUtil iterates through all the in Nodes, making sure that the minHeap structure is maintained
+     * @param nArray
+     * @return
+     */
+   public static BTree minHeapUtil(Node[] nArray){
+
+    BTree minHeap   = new BTree(nArray[0]);
+    Node last;
+
+    for(int i=1;i<nArray.length;i++) {
+
+        last    = findInsert(nArray[i], minHeap);
+        Node copyLast  = last;
+
+        minHeap.setSize(minHeap.getSize()+1);
+        minHeapify(copyLast);
+        subtreeSizeAdjust(last);
+    }
+        return minHeap;
+    }
+
+
+    /**
+     * sizOfSubtreeAdjust increases the size of all the ancestors to las inserted node, all values are increase by 1
+     * @param last
+     */
+    public static void subtreeSizeAdjust(Node last){
+        Node parent  = last.getParent();
+        while(parent!=null){
+            parent.setSizeOfSubtree(parent.getSizeOfSubtree()+1);
+            parent = parent.getParent();
+        }
+
+    }
+
+    /**
+     * minHeapify ensires teh correct location for teh lastly inserted data
+     * @param last
+     */
+    public static void minHeapify(Node last) {
+
+        Node parent = last.getParent();
+        String firstSwap, lastSwap;
+
+        while(parent!=null){
+
+            if(last.getLastName().compareTo(parent.getLastName())<0){
+                lastSwap    = last.getLastName();
+                firstSwap   = last.getFirstName();
+                last.setLastName(parent.getLastName());
+                last.setFirstName(parent.getFirstName());
+                parent.setLastName(lastSwap);
+                parent.setFirstName(firstSwap);
+                last    = parent;
+                parent = parent.getParent();
+            }else{
+                parent  = null;
+            }
+        }
+
+    }
+
+    /**
+     * findInsert find the best location to insert the next node into the min heap by using the size of the tree
+     * and the properties of a balance heap
+     * @param inNode
+     * @param minHeap
+     * @return
+     */
+    public static Node findInsert(Node inNode, BTree minHeap){
+
+        double levelPointer     = Math.floor((Math.log(minHeap.getSize())/Math.log(2)));
+        double levelWidth       = Math.pow(2,levelPointer);
+        double treeCap          = Math.pow(2,(levelPointer+1))-1;
+        int location            = (int)( levelWidth-(treeCap - minHeap.getSize()));
+
+        Stack<Character> dirStack    = new Stack<Character>();
+
+        if(levelPointer==0){
+            minHeap.getRoot().setLchild(inNode);
+            inNode.setParent(minHeap.getRoot());
+        }
+        while(levelPointer>0){
+
+//            System.out.println("LevelPointer: "+ levelPointer+"\nLevelWidth: " + levelWidth+ "\nTreeCap: "+treeCap+"\nLocation: "+location);
+
+            if(location%2==0){
+                dirStack.push('r');
+            }else{
+                dirStack.push('l');
+            }
+
+            double tempPercent  = location/levelWidth;
+            levelWidth          = levelWidth/2;
+            location            = (int) Math.ceil(tempPercent*levelWidth);
+            levelPointer--;
+
+        }
+
+        Node current    = minHeap.getRoot();
+        Character tempr = new Character('r');
+
+        while(dirStack.size()>1) {
+
+            if (dirStack.pop().compareTo(tempr) == 0) {
+                current = current.getRchild();
+            } else {
+
+                current = current.getLchild();
+
+            }
+        }
+
+
+        if(dirStack.size() ==1) {
+            if (dirStack.pop().compareTo(tempr) == 0) {
+                current.setRchild(inNode);
+            } else {
+                current.setLchild(inNode);
+            }
+            inNode.setParent(current);
+        }
+        return inNode;
+
+    }
+
+    /**
+     * traverseBTree iterates through the pre, in, and post order traversal of the binary tree
+     * @param structureName
+     */
+    public void traverseBTree(String structureName){
+
+        System.out.println("\n"+ structureName+" Pre-Order Traversal: ");
+        preorderTraversal(this.getRoot());
+
+        System.out.println("\n\n"+ structureName+" In-Order Traversal: ");
+        inorderTraversal(this.getRoot());
+
+        System.out.println("\n\n"+ structureName+" Post-Order Traversal: ");
+        postorderTraversal(this.getRoot());
+    }
+
+
+    /**
+     * preorderTraversal print the current value, recurses to the left subtree, and then recurses to the right sub tree
+     * @param node
+     */
+    public void preorderTraversal(Node node){
+
+        if(node!=null){
+            System.out.print(node.getLastName()+", "+node.getFirstName()+"; ");
+
+            preorderTraversal(node.getLchild());
+
+            preorderTraversal(node.getRchild());
+        }
+    }
+
+    /**
+     * inorderTraversal recurses through the left subtree, prints the current node, and then recurses throught the right sub tree
+     * @param node
+     */
+    public void inorderTraversal(Node node){
+
+        if(node!=null){
+
+            inorderTraversal(node.getLchild());
+            System.out.print(node.getLastName()+", "+node.getFirstName()+"; ");
+            inorderTraversal(node.getRchild());
+        }
+    }
+
+    /**
+     * postorderTraversal recurses through the left subtree, right subtree, and then the data is printed
+     * @param node
+     */
+    public void postorderTraversal(Node node){
+
+        if(node!=null){
+
+            postorderTraversal(node.getLchild());
+            postorderTraversal(node.getRchild());
+            System.out.print(node.getLastName()+", "+node.getFirstName()+"; ");
+
+
+        }
+
+    }
+
+    /**
+     * bstUtil iterates trough all of the incoming node values and makes sure that they are stored in a BST
+     * @param nArray
+     * @return
+     */
+    public static BTree bstUtil(Node[] nArray) {
+
+        BTree bst   = new BTree(nArray[0]);
+
+        bst.getRoot().setLchild(null);
+        bst.getRoot().setRchild(null);
+
+        System.out.println();
+        for(int i=1; i<nArray.length;i++){
+
+            nArray[i].setRchild(null);
+            nArray[i].setLchild(null);
+            insert(bst.getRoot(), nArray[i]);
+        }
+
+        return bst;
+    }
+
+    /**
+     * insert inserts node based on relations of being >, =, or < the current node
+     * @param current
+     * @param inNode
+     */
+    public static void insert(Node current, Node inNode){
+
+//        System.out.println(current.getLastName()+" compared to : "+ inNode.getLastName());
+            if(current.getLastName().compareTo(inNode.getLastName())>0){
+                if(current.getLchild()==null){
+                    current.setLchild(inNode);
+                    current.getLchild().setParent(current);
+//                    System.out.println(inNode.getLastName()+ " inserted as L of " + current.getLastName() );
+                }else{
+                    current = current.getLchild();
+//                    System.out.println("Moved to Left Child: "+current.getLastName());
+                    insert(current, inNode);
+                }
+            }else{
+                if(current.getRchild()==null){
+                    current.setRchild(inNode);
+                    current.getRchild().setParent(current);
+//                    System.out.println(inNode.getLastName()+ " inserted as R of " + current.getLastName() );
+                }else{
+                    current = current.getRchild();
+//                    System.out.println("Moved to right child: "+ current.getLastName());
+
+                    insert(current, inNode);
+                }
+            }
+
+
+    }
+
+    public boolean search(String name, Node current){
+
+        if(current!=null) {
+//            System.out.println(current.getLastName() + " compared to" + name);
+            if (current.getLastName().compareTo(name) == 0) {
+                return true;
+            } else if (current.getLastName().compareTo(name) < 0) {
+                return search(name, current.getRchild());
+            }else{
+                return search(name, current.getLchild());
+            }
+        }
+
+
+
+        return false;
+    }
+
+
+}
